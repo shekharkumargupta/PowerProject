@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0" xmlns="http://java.sun.com/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+  <persistence-unit name="PmsPU" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>jdbc/PMS</jta-data-source>
+    <class>com.opgea.crm.domain.entities.Address</class>
+    <class>com.opgea.crm.domain.entities.City</class>
+    <class>com.opgea.crm.domain.entities.Company</class>
+    <class>com.opgea.crm.domain.entities.Country</class>
+    <class>com.opgea.crm.domain.entities.Designation</class>
+    <class>com.opgea.crm.domain.entities.Employee</class>
+    <class>com.opgea.crm.domain.entities.EmployeeDetails</class>
+    <class>com.opgea.crm.domain.entities.Login</class>
+    <class>com.opgea.crm.domain.entities.Province</class>
+    <class>com.opgea.crm.domain.entities.Department</class>
+    <class>com.opgea.crm.domain.entities.Job</class>
+    <class>com.opgea.crm.domain.entities.JobStatus</class>
+    <class>com.opgea.crm.domain.entities.Client</class>
+    <class>com.opgea.crm.domain.entities.ClientContact</class>
+    <class>com.opgea.crm.domain.entities.Item</class>
+    <class>com.opgea.crm.domain.entities.ItemTimeDefinition</class>
+    <class>com.opgea.crm.domain.entities.Estimation</class>
+    <class>com.opgea.crm.domain.entities.Project</class>
+    <class>com.opgea.crm.domain.entities.ItemEstimation</class>
+    <class>com.opgea.crm.domain.entities.Team</class>
+    <class>com.opgea.crm.domain.entities.Task</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
+    <properties>
+      <property name="URL" value="jdbc:mysql://localhost:3306/pms"></property>
+      <property name="eclipselink.ddl-generation" value="update-tables"/>
+    </properties>
+  </persistence-unit>
+</persistence>

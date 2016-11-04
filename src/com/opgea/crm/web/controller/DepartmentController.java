@@ -1,0 +1,102 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.opgea.crm.web.controller;
+
+import com.opgea.crm.common.constant.SessionConstants;
+import com.opgea.crm.common.util.FacesUtil;
+import com.opgea.crm.domain.model.SessionData;
+import com.opgea.crm.exceptions.DBOperationException;
+import com.opgea.crm.service.DepartmentService;
+import com.opgea.crm.web.dto.DepartmentDTO;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.inject.Inject;
+
+/**
+ *
+ * @author Ramesh
+ */
+@ManagedBean(name = "departmentController")
+@RequestScoped
+public class DepartmentController {
+
+    @Inject
+    private DepartmentService departmentService;
+    private DepartmentDTO departmentDTO = new DepartmentDTO();
+    private List<DepartmentDTO> departmentList = new ArrayList<DepartmentDTO>();
+
+    @PostConstruct
+    public void init() {
+        System.out.println("DepartmentController Initialized...");
+        SessionData sessionData = (SessionData) FacesUtil.getHttpSession().getAttribute(SessionConstants.SESSION_DATA);
+        departmentList = departmentService.findAllByCompanyId(sessionData.getCompanyId());
+    }
+
+    public DepartmentDTO getDepartmentDTO() {
+        return departmentDTO;
+    }
+
+    public void setDepartmentDTO(DepartmentDTO departmentDTO) {
+        this.departmentDTO = departmentDTO;
+    }
+
+    public List<DepartmentDTO> getDepartmentList() {
+        return departmentList;
+    }
+
+    public void setDepartmentList(List<DepartmentDTO> departmentList) {
+        this.departmentList = departmentList;
+    }
+
+    public String newEntry() {
+        departmentDTO.reset();
+        return "new.xhtml";
+    }
+
+    public String view() {
+        ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, String> params = extContext.getRequestParameterMap();
+        String departmentId = (String) params.get("departmentId");
+        this.departmentDTO = departmentService.find(new Long(departmentId));
+        return "view.xhtml";
+    }
+
+    public String save() {
+        SessionData data = (SessionData) FacesUtil.getHttpSession().getAttribute(SessionConstants.SESSION_DATA);
+        departmentDTO.setCompanyId(data.getCompanyId());
+        try {
+            departmentService.update(departmentDTO);
+            FacesUtil.addMessage("messages", FacesMessage.SEVERITY_INFO,
+                    departmentDTO.getName() + " saved successfully!", null);
+        } catch (DBOperationException ex) {
+            Logger.getLogger(DepartmentController.class.getName()).log(Level.SEVERE, ex.getMessage(), ex.getMessage());
+            FacesUtil.addMessage("messages", FacesMessage.SEVERITY_ERROR,
+                    ex.getMessage(), null);
+        }
+        return "";
+    }
+
+    public String edit() {
+        ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();
+        Map<String, String> params = extContext.getRequestParameterMap();
+        String departmentId = (String) params.get("departmentId");
+        this.departmentDTO = departmentService.find(new Long(departmentId));
+        return "create.xhtml";
+    }
+
+    public String delete() {
+        this.departmentDTO = departmentService.find(getDepartmentDTO().getId());
+        return "list.xhtml";
+    }
+}

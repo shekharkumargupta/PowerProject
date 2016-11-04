@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Create Estimation" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="2" styleClass="APPLICATION_CONTENT"
+                             cellpadding="2">
+                    <h:outputText  value=""/>
+                    <h:inputHidden id="id" value="#{estimationController.estimationDTO.id}"/>
+                    
+                    <p:outputLabel for="clientId" value="Client:"/>
+                    <p:selectOneMenu id="clientId" 
+                                     value="#{estimationController.estimationDTO.clientId}"
+                                     style="width: 300px;">
+                        <f:selectItems value="#{estimationController.clientList}" var="client"
+                                       itemValue="#{client.clientId}" 
+                                       itemLabel="#{client.clientName}" />
+                    </p:selectOneMenu>
+
+                    <p:outputLabel for="estimationName" value="Estimation Name:"/>
+                    <p:inputText id="estimationName" 
+                                 value="#{estimationController.estimationDTO.name}"
+                                 required="true" 
+                                 requiredMessage="Please enter the Estimation Name!"
+                                 style="width: 250px;"/>
+                    
+                    <p:outputLabel for="jobStatusId" value="Status:"/>
+                    <p:selectOneMenu id="jobStatusId" 
+                                     value="#{estimationController.estimationDTO.jobStatusId}"
+                                     style="width: 120px;">
+                        <f:selectItems value="#{estimationController.jobStatusList}" var="job"
+                                       itemValue="#{job.id}" 
+                                       itemLabel="#{job.name}" />
+                    </p:selectOneMenu>
+
+                    <h:outputText value=""/>
+                    <p:commandButton value="Save" actionListener="#{estimationController.saveAjax}"
+                                     ajax="true"/>
+                    <h:outputText/>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

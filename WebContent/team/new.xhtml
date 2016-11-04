@@ -1,0 +1,174 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Create Team" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <p:accordionPanel style="padding-top: 5px; vertical-align: top;"
+                                  multiple="false">
+                    <p:tab title="Create Team">
+                        <h:inputHidden id="teamId" 
+                                       value="#{teamController.teamDTO.id}"/>
+                        <h:panelGrid id="tablePanel" columns="2" cellpadding="3" 
+                                     styleClass="SIMPLE_LINE">
+                            <p:outputLabel for="teamName" value="Team Name:"/>
+                            <p:inputText id="teamName" 
+                                         value="#{teamController.teamDTO.name}"
+                                         size="35"/>
+                            <p:outputLabel for="teamLeader" value="Team Leader:"/>
+                            <p:selectOneMenu id="teamLeader" 
+                                             value="#{teamController.teamDTO.teamLeaderId}">
+                                <f:selectItems value="#{teamController.employeeDTOList}"
+                                               var="employee"
+                                               itemLabel="#{employee.firstName}
+                                               #{employee.middleInitial}
+                                               #{employee.lastName}"
+                                               itemValue="#{employee.id}"
+                                               itemDescription="Email: #{employee.email}"/>
+                            </p:selectOneMenu>
+                            <p:spacer />
+                            <p:commandButton value="Create" action="#{teamController.save}"
+                                             ajax="true" update="selectedTeamId"/>
+                        </h:panelGrid>
+                    </p:tab>    
+                    <p:tab title="Add Member">
+
+                        <table cellpadding="3" cellspacing="5">
+                            <tr>
+                                <td valign="top">
+                                    <p:fieldset legend="Emloyee List">
+                                        <p:dataTable id="employeeTable" 
+                                                     value="#{teamController.employeeDTOList}"
+                                                     var="employee"
+                                                     tableStyleClass="SIMPLE_LINE">
+                                            <p:column>
+                                                <f:facet name="header">Image</f:facet>
+                                                <p:graphicImage 
+                                                    value="http://localhost:8080/Pms/faces/ImageServlet?employeeId=#{employee.id}"
+                                                    height="40" width="30"/>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">Name</f:facet>
+                                                <p:commandLink onclick="employeeDetailsDialog.show();">
+                                                    <h:outputText value="#{employee.firstName} #{employee.lastName}" 
+                                                                  styleClass="SIMPLE_LINE"
+                                                                  style="text-align: left;"/>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">Team</f:facet>
+                                                <p:commandLink onclick="employeeDetailsDialog.show();">
+                                                    <h:outputText value="#{employee.teams.size()}"
+                                                                  styleClass="SIMPLE_LINE"/>
+                                                </p:commandLink>
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">Designation</f:facet>
+                                                <h:outputText value="#{employee.designation}"/> 
+                                            </p:column>
+                                            <p:column>
+                                                <f:facet name="header">Action</f:facet>
+                                                <p:commandLink>
+                                                    <h:outputText  value="Plan" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                                </p:commandLink>
+                                                <p:spacer width="5"/>
+                                                <p:commandLink id="addMemberActionLink" 
+                                                               actionListener="#{teamController.addMembers(employee.id)}"
+                                                               ajax="true"
+                                                               rendered="#{not employee.existingMember}">
+                                                    <h:outputText  value="Add" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                                </p:commandLink>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </p:fieldset>
+                                </td>
+                                <td valign="top">
+                                    <p:fieldset legend="Team and Members">
+                                        <h:panelGrid columns="1">
+                                            <h:panelGroup>
+                                                <p:selectOneMenu id="selectedTeamId"
+                                                                 value="#{teamController.selectedTeamId}"
+                                                                 style="width: 300px;">
+                                                    <f:selectItems value="#{teamController.teamDTOList}"
+                                                                   var="team" 
+                                                                   itemLabel="#{team.name}"
+                                                                   itemValue="#{team.id}"
+                                                                   itemDescription="Team Leader: #{team.teamLeaderName}"/>
+                                                    <p:ajax listener="#{teamController.showTeamMembers}"
+                                                            global="true"
+                                                            update="employeeTable, memberTable"/>
+                                                </p:selectOneMenu>
+                                                <p:commandLink actionListener="#{teamController.showTeamMembers}"
+                                                               ajax="true" update="employeeTable, memberTable">
+                                                    <h:outputText value="Refresh" styleClass="SIMPLE_LINE"/>
+                                                </p:commandLink>
+                                            </h:panelGroup>
+                                            <p:dataTable id="memberTable" 
+                                                         value="#{teamController.memberDTOList}"
+                                                         var="member"
+                                                         tableStyleClass="SIMPLE_LINE">
+                                                <p:column>
+                                                    <f:facet name="header">Image</f:facet>
+                                                    <p:graphicImage 
+                                                        value="http://localhost:8080/Pms/faces/ImageServlet?employeeId=#{member.id}"
+                                                        height="40" width="30"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">Name</f:facet>
+                                                    <h:outputText value="#{member.firstName}"/>
+                                                    <h:outputText value=" #{member.lastName}"/>
+                                                    <br></br>
+                                                    <h:outputText value="Mentor"
+                                                                  rendered="#{teamController.teamDTO.teamLeaderId eq member.id}"/>
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">Designation</f:facet>
+                                                    <h:outputText value="#{member.designation}"/> 
+                                                </p:column>
+                                                <p:column>
+                                                    <f:facet name="header">Action</f:facet>
+                                                    <p:commandLink actionListener="#{teamController.removeMembers(member.id)}"
+                                                               ajax="true"
+                                                               update="memberTable"
+                                                               rendered="#{teamController.teamDTO.teamLeaderId != member.id}">
+                                                        <h:outputText  value="Remove" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                                    </p:commandLink>
+                                                </p:column>
+                                            </p:dataTable>
+                                        </h:panelGrid>
+                                    </p:fieldset>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:tab>
+                </p:accordionPanel>
+
+                <p:dialog header="Employee Details" 
+                          widgetVar="employeeDetailsDialog"
+                          modal="true"
+                          id="employeeDetailsDlg"
+                          showEffect="fade"
+                          hideEffect="fade"
+                          position="center">
+                    <h:panelGrid columns="2" styleClass="SIMPLE_LINE">
+                        <h:outputText value="Name: " styleClass="FORM_LABEL"/>
+                        <h:outputText value="#{teamController.teamDTO.name}"/>
+
+                        <h:outputText value="Company Name: " styleClass="FORM_LABEL"/>
+                        <h:outputText value="#{teamController.teamDTO.companyName}"/>
+                    </h:panelGrid>
+                </p:dialog>   
+
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="FORM_HEADER_NEW">
+                <h:outputText value="Department List" styleClass="FORM_HEADER_NEW"/>    
+            </p:panel>
+            <br></br>
+            <h:form>
+                <p:dataTable value="#{departmentController.departmentList}" var="department"
+                             paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                             rowStyleClass="SIMPLE_LINE">
+                    <p:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{department.id}" styleClass="COLUMN"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{department.name}" styleClass="COLUMN"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:commandLink value="View" action="#{departmentController.view}">
+                            <f:param name="departmentId" value="#{department.id}"/>
+                        </h:commandLink>
+                        <h:outputText value=" "/>
+                        <h:commandLink value="Edit" action="#{departmentController.edit}">
+                            <f:param name="departmentId" value="#{department.id}"/>
+                        </h:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

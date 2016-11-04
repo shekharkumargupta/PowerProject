@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="View Client" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT">
+                    <h:outputText value=""/>
+                    <h:inputHidden id="id" value="#{clientController.clientDTO.clientId}"/>
+                    <h:outputText value=""/>
+
+                    <h:outputLabel for="clientName" value="Client Name:"/>
+                    <h:inputText id="clientName" value="#{clientController.clientDTO.clientName}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <h:message for="clientName"/>
+
+                    <h:outputLabel for="website" value="Website:"/>
+                    <h:outputText id="website" value="#{clientController.clientDTO.website}"/>
+                    <h:message for="website"/>
+
+                    <h:outputLabel for="street1" value="Street1:"/>
+                    <h:outputText id="street1" value="#{clientController.clientDTO.street1}"/>
+                    <h:message for="street1"/>
+
+                    <h:outputLabel for="street2" value="Street2:"/>
+                    <h:outputText id="street2" value="#{clientController.clientDTO.street2}"/>
+                    <h:message for="street2"/>
+
+                    <h:outputLabel for="zipCode" value="Zip Code:"/>
+                    <h:outputText id="zipCode" value="#{clientController.clientDTO.zipCode}"/>
+                    <h:message for="zipCode"/>
+                </h:panelGrid>
+                <h:panelGroup>
+                    <p:commandButton value="Print" action="#{clientController.save}">
+                        <f:param name="clientId" value="#{client.clientId}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Delete" action="#{clientController.delete}">
+                        <f:param name="clientId" value="#{client.clientId}"/>
+                    </p:commandButton>
+                </h:panelGroup>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>

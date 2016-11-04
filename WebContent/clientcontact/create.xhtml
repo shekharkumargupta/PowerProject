@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Edit Client Contact" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT"
+                             cellpadding="2">
+                    <h:outputText value=""/>
+                    <h:inputHidden id="id" value="#{clientContactController.clientContactDTO.contactId}"/>
+                    <h:outputText value=""/>
+                    
+                    <p:outputLabel for="clientId" value="Client: "/>
+                    <p:selectOneMenu id="clientId" 
+                                     value="#{clientContactController.clientContactDTO.clientId}">
+                        <f:selectItems value="#{clientContactController.clientList}" var="client"
+                                       itemValue="#{client.clientId}" itemLabel="#{client.clientName}" />
+                    </p:selectOneMenu>
+                    <p:message for="clientId"/>
+                    
+                    <p:outputLabel for="contactTypeId" value="Contact Type: "/>
+                    <p:selectOneMenu id="contactTypeId" 
+                                     value="#{clientContactController.clientContactDTO.contactType}">
+                        <f:selectItems value="#{clientContactController.contactTypeList}" var="contactType"
+                                       itemValue="#{contactType.id}" itemLabel="#{contactType.value}" />
+                    </p:selectOneMenu>
+                    <p:message for="contactTypeId"/>
+
+                    <p:outputLabel for="firstName" value="First Name: "/>
+                    <p:inputText id="firstName" value="#{clientContactController.clientContactDTO.firstName}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="firstName"/>
+                    
+                    <p:outputLabel for="middleInitial" value="Middle Name: "/>
+                    <p:inputText id="middleInitial" value="#{clientContactController.clientContactDTO.middleInitial}"/>
+                    <p:message for="middleInitial"/>
+                    
+                    <p:outputLabel for="lastName" value="Last Name: "/>
+                    <p:inputText id="lastName" value="#{clientContactController.clientContactDTO.lastName}"/>
+                    <p:message for="lastName"/>
+                    
+                    <p:outputLabel for="designation" value="Position: "/>
+                    <p:inputText id="designation" value="#{clientContactController.clientContactDTO.designation}"/>
+                    <p:message for="designation"/>
+
+                    <p:outputLabel for="email" value="Email: "/>
+                    <p:inputText id="email" value="#{clientContactController.clientContactDTO.email}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="email"/>
+
+                    <p:outputLabel for="phone1" value="Phone1: "/>
+                    <p:inputText id="phone1" value="#{clientContactController.clientContactDTO.phone1}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="phone1"/>
+                    
+                    <p:outputLabel for="phone2" value="Phone2: "/>
+                    <p:inputText id="phone2" value="#{clientContactController.clientContactDTO.phone2}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="phone2"/>
+
+                    <h:outputText value=""/>
+                    <p:commandButton value="Save" action="#{clientContactController.save}"
+                                     ajax="true"/>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>

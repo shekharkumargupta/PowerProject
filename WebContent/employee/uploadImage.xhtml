@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Create Employee" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <p:messages id="messages"  
+                            autoUpdate="true"
+                            closable="true">
+                    <p:effect type="pulsate" event="load" delay="500">
+                        <f:param name="mode" value="'show'"/>
+                    </p:effect>
+                </p:messages>
+                <h:panelGrid columns="1" styleClass="APPLICATION_CONTENT"
+                             cellpadding="2" width="100%;">
+                    <h:inputHidden id="employeeId" 
+                             value="#{employeeController.employeeDTO.id}"/>
+                    <p:outputLabel value="Upload Image: " for="imageUpload"/>
+                    <p:fileUpload id="imageUpload" 
+                                  fileUploadListener="#{employeeController.uploadImage}" 
+                                  mode="advanced" dragDropSupport="false"  
+                                  update="messages" sizeLimit="1000000" 
+                                  allowTypes="/(\.|\/)(gif|jpe?g|png)$/"
+                                  style="width: 95%;"
+                                  auto="false">
+                        <f:param name="employeeId" value="123"/>
+                    </p:fileUpload>    
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

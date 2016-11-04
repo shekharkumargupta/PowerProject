@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="View Item Time Definition" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT">
+                    <h:outputText  value=""/>
+                    <h:inputHidden id="id" value="#{timeController.timeDTO.id}"/>
+                    <p:message for="id"/>
+
+                    <p:outputLabel for="itemId" value="Item:"/>
+                    <h:outputText id="itemId" value="#{timeController.timeDTO.itemId}"/>
+                    <p:message for="itemId"/>
+                    
+                    <p:outputLabel for="departmentId" value="Department:"/>
+                    <h:outputText id="departmentId" value="#{timeController.timeDTO.departmentId}"/>
+                    <p:message for="departmentId"/>
+                    
+                    <p:outputLabel for="jobId" value="Job:"/>
+                    <h:outputText id="jobId" value="#{timeController.timeDTO.jobId}"/>
+                    <p:message for="jobId"/>
+                    
+                    <p:outputLabel for="durationTypeId" value="Duration Type:"/>
+                    <h:outputText id="durationTypeId" value="#{timeController.timeDTO.durationTypeName}"/>
+                    <p:message for="durationTypeId"/>
+                    
+                    <p:outputLabel for="duration" value="Duration:"/>
+                    <p:inputText id="duration" value="#{timeController.timeDTO.duration}"
+                                 required="true" requiredMessage="Enter the value."/>
+                    <p:message for="duration"/>
+                </h:panelGrid>
+                <h:panelGroup>
+                    <p:commandButton value="Print" action="#{timeController.save}">
+                        <f:param name="timeId" value="#{time.id}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Delete" action="#{timeController.delete}">
+                        <f:param name="timeId" value="#{time.id}"/>
+                    </p:commandButton>
+                </h:panelGroup>	
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

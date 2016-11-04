@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link href="./../resources/css/layout.css" rel="stylesheet"
+              type="text/css" />
+        <link href="./../resources/css/style.css" rel="stylesheet"
+              type="text/css" />
+
+        <title><ui:insert name="title">OPGEA PMS</ui:insert></title>
+    </h:head>
+    <h:body>
+        <p:panel>
+            <h:form>
+                    <p:themeSwitcher id="statefulSwitcher"
+                                     value="#{themeController.theme}" 
+                                     style="width:195px; text-align: left;" 
+                                     effect="fade">  
+                        <f:selectItem itemLabel="Choose Theme" itemValue="" />  
+                        <f:selectItems value="#{themeController.themes}" 
+                                       var="theme"/>
+                        <p:ajax global="false" listener="#{themeController.saveTheme}" />
+                    </p:themeSwitcher> 
+                <br></br>
+                <h:dataTable value="#{appController.actionList}" var="action" >
+                    <h:column>
+                        <h:commandLink value="#{action.value}" action="#{action.getURL}" />
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </p:panel>
+    </h:body>
+</html>

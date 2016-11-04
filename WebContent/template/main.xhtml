@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:pou="http://primefaces.org/ui"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link href="./../resources/css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="./../resources/css/style.css" rel="stylesheet" type="text/css" />
+        <title><ui:insert name="title">Default title</ui:insert></title>
+    </h:head>
+    <h:body>
+        <p:panel>
+            <ui:insert name="header">
+                <ui:include src="header.xhtml"/> 
+            </ui:insert>
+            <table width="100%">
+                <tr>
+                    <td class="MENU_CONTENT" valign="top">
+                        <div id="menu">
+                            <ui:insert name="menu">
+                                <ui:include src="pages.xhtml"/>
+                            </ui:insert>
+                        </div>		
+                    </td>
+                    <td class="APPLICATION_CONTENT" valign="top">
+                        <div id="content" style="height: 500px;">
+                            <ui:insert name="content">
+                                <b>Content</b>
+                            </ui:insert>
+                        </div>		
+                    </td>
+                    <td class="MENU_CONTENT" valign="top">
+                        <div id="toolbar">
+                            <ui:insert name="toolbar">
+                                <ui:include src="action.xhtml"/>
+                            </ui:insert>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <!--
+            <div id="footer" class="APPLICATION_FOOTER">
+                <ui:insert name="footer">
+                    www.opgea.com
+                </ui:insert>
+            </div>
+            -->
+        </p:panel>
+    </h:body>
+</html>

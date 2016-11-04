@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="FORM_HEADER_NEW">
+                <h:outputText value="Client List" styleClass="FORM_HEADER_NEW"/>    
+            </p:panel>
+            <br></br>
+            <h:form>
+                <p:dataTable value="${clientController.clientList}" 
+                             var="client"
+                             paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                             rowStyleClass="SIMPLE_LINE">
+                    <p:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{client.clientId}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{client.clientName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Website</f:facet>
+                        <h:outputText value="#{client.website}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Address</f:facet>
+                        <h:outputText value="#{client.street1}" /><br></br>
+                        <h:outputText value="#{client.street2}" /><br></br>
+                        <h:outputText value="#{client.zipCode}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:commandLink value="View" action="#{clientController.view}">
+                            <f:param name="clientId" value="#{client.clientId}"/>
+                        </h:commandLink>
+                        <h:outputText value=" "/>
+                        <h:commandLink value="Edit" action="#{clientController.edit}">
+                            <f:param name="clientId" value="#{client.clientId}"/>
+                        </h:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

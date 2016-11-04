@@ -1,0 +1,82 @@
+@CHARSET "ISO-8859-1";
+
+.FORM_HEADER{
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+
+    color: white;
+    background-color: #aabbcc;
+
+    font-family: calibri;
+}
+
+.FORM_HEADER_NEW{
+    font-family: calibri;
+    font-size: small;
+    font-weight: bold;
+}
+
+.MAIN_PANEL{
+    border: 0px; 
+    height: 500px;
+    padding-left: 0px;
+    
+    font-family: calibri;
+    font-size: small;
+}
+
+.TABLE_BASIC_COMPOSITION {    
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.TABLE_HEADER {
+    text-align: center;
+    background: #ccdddd;
+    padding: 10px;
+}
+
+.ODD_ROW {
+    height: 30px;
+    text-align: left;
+    background: #ffffff;
+}
+
+.EVEN_ROW {
+    height: 30px;
+    text-align: left;
+    background: #ddeeff;
+}
+
+.COLUMN {
+    padding: 10px;
+}
+
+.SIMPLE_LINE{
+    padding: 8px;
+    font-family: calibri;
+    font-size: small;
+    vertical-align: top;
+}
+
+.ERROR_MESSAGE{
+    color: red;
+    padding: 3px;
+    margin: 10px;
+    font-family: calibri;
+    font-size: small;
+}
+
+.FORM_LABEL{
+    padding: 5px;
+}
+
+.NO_PADDING_SIMPLE_TEXT{
+    font-family: calibri;
+    font-size: small;
+    vertical-align: top;
+}

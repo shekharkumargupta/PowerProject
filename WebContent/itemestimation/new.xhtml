@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Edit Item Estimation" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="1" 
+                             styleClass="APPLICATION_CONTENT" 
+                             style="padding-top: 5px; vertical-align: top;">
+
+                    <h:panelGrid id="tablePanel" columns="6" cellpadding="3">
+                        <p:outputLabel for="estimationId" value="Estimation:"/>
+                        <p:selectOneMenu id="estimationId" 
+                                         value="#{itemEstimationController.itemEstimationDTO.estimationId}"
+                                         style="width: 220px;">
+                            <f:selectItems value="#{itemEstimationController.estimationList}" var="estimation"
+                                           itemValue="#{estimation.id}" itemLabel="#{estimation.name}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="departmentId" value="Department:"/>
+                        <p:selectOneMenu id="departmentId" 
+                                         value="#{itemEstimationController.itemEstimationDTO.departmentId}"
+                                         style="width: 220px;">
+                            <f:selectItems value="#{itemEstimationController.departmentList}" var="department"
+                                           itemValue="#{department.id}" itemLabel="#{department.name}" />
+                        </p:selectOneMenu>
+                        <p:outputLabel for="itemId" value="Item:"/>
+                        <p:selectOneMenu id="itemId" 
+                                         value="#{itemEstimationController.itemEstimationDTO.itemId}"
+                                         style="width: 220px;">
+                            <f:selectItems value="#{itemEstimationController.itemList}" var="item"
+                                           itemValue="#{item.id}" itemLabel="#{item.name}" />
+                        </p:selectOneMenu>
+                    </h:panelGrid>
+                </h:panelGrid>
+                <table cellspacing="10">
+                    <tr>
+                        <td valign="top">
+                            <p:selectOneListbox id="defaultTimeDefinitionTable" 
+                                                value="#{itemEstimationController.itemEstimationDTO.defaultTimeDefinitionId}"
+                                                style="height: 350px; width: 180px;">
+                                <f:selectItems value="#{itemEstimationController.itemTimeDefinitionList}" 
+                                               var="time"
+                                               itemValue="#{time.id}" itemLabel="#{time.jobName}" />
+                            </p:selectOneListbox>
+                        </td>
+                        <td valign="top">
+                            <p:commandButton value="Add >" style="width: 120px;"
+                                             action="#{itemEstimationController.save}"
+                                             ajax="true" update="estimatedTimeDefinitionTable">
+                            </p:commandButton>
+                            <br></br>
+                            <p:commandButton value="Add All >>" style="width: 120px;"
+                                             action="#{itemEstimationController.batchSave}"
+                                             ajax="true" update="estimatedTimeDefinitionTable">
+                            </p:commandButton>
+                            <br></br><br></br><br></br>
+                            <p:commandButton value="Refresh" style="width: 120px;"
+                                             action="#{itemEstimationController.refresh()}"
+                                             ajax="true" update="defaultTimeDefinitionTable estimatedTimeDefinitionTable">
+                            </p:commandButton>
+                            <br></br>
+                            <p:commandButton value="View All" style="width: 120px;"
+                                             action="#{itemEstimationController.reloadAllEstimatedTimeList()}"
+                                             ajax="true" update="defaultTimeDefinitionTable estimatedTimeDefinitionTable">
+                            </p:commandButton>
+                        </td>
+                        <td valign="top">
+                            <p:dataTable id="estimatedTimeDefinitionTable" 
+                                         value="#{itemEstimationController.itemEstimationList}" 
+                                         var="item"
+                                         sortBy="#{item.itemName}" 
+                                         sortOrder="ascending"
+                                         tableStyleClass="SIMPLE_LINE">
+
+                                <p:column sortBy="#{item.itemName}">
+                                    <f:facet name="header">Item</f:facet>
+                                    <h:outputText value="#{item.itemName}" styleClass="COLUMN"/>
+                                </p:column>
+
+                                <p:column sortBy="#{item.jobName}">
+                                    <f:facet name="header">Name</f:facet>
+                                    <h:outputText value="#{item.jobName}" styleClass="COLUMN"/>
+                                </p:column>
+                                <p:column sortBy="#{item.durationValue}">
+                                    <f:facet name="header">Duration</f:facet>
+                                    <p:inplace>
+                                        <p:inputText value="#{item.durationValue}"
+                                                     size="4"/>
+                                    </p:inplace>
+                                </p:column>
+                                <p:column sortBy="#{item.durationTypeId}">
+                                    <f:facet name="header">Type</f:facet>
+                                    <p:selectOneMenu id="durationTypeId" 
+                                                     value="#{item.durationTypeId}">
+                                        <f:selectItems value="#{itemEstimationController.durationTypeList}" 
+                                                       var="durationType"
+                                                       itemLabel="#{durationType.value}"
+                                                       itemValue="#{durationType.id}"/>
+                                    </p:selectOneMenu>
+                                </p:column>
+                                <p:column sortBy="#{item.quantity}">
+                                    <f:facet name="header">QTY</f:facet>
+                                    <p:inputText value="#{item.quantity}"
+                                                 size="4"/>
+                                </p:column>
+                                <p:column sortBy="#{item.totalTime}">
+                                    <f:facet name="header">Total Time</f:facet>
+                                    <h:outputText value="#{item.totalTime}">
+                                        <f:convertNumber />
+                                    </h:outputText>
+                                </p:column>
+                                <p:summaryRow>
+                                    <p:column colspan="5" style="text-align: right;">
+                                        Total:
+                                    </p:column>
+                                    <p:column style="text-align: right;">
+                                        <h:outputText value="#{item.itemTotalTime}"/>
+                                    </p:column>
+                                </p:summaryRow>
+                                <p:column>
+                                    <f:facet name="header">Action</f:facet>
+                                    <p:commandLink value="Save" 
+                                                   actionListener="#{itemEstimationController.update(item)}"
+                                                   ajax="true" 
+                                                   update="estimatedTimeDefinitionTable"
+                                                   styleClass="SIMPLE_LINE">
+                                    </p:commandLink>
+                                </p:column>
+                            </p:dataTable>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

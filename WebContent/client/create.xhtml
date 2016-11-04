@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Edit Client" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT"
+                             cellpadding="2">
+                    <h:outputText value=""/>
+                    <h:inputHidden id="id" value="#{clientController.clientDTO.clientId}"/>
+                    <h:outputText value=""/>
+
+                    <p:outputLabel for="clientName" value="Client Name:"/>
+                    <p:inputText id="clientName" value="#{clientController.clientDTO.clientName}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="clientName"/>
+
+                    <p:outputLabel for="website" value="Website:"/>
+                    <p:inputText id="website" value="#{clientController.clientDTO.website}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="website"/>
+
+                    <p:outputLabel for="street1" value="Street1:"/>
+                    <p:inputText id="street1" value="#{clientController.clientDTO.street1}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="street1"/>
+
+                    <p:outputLabel for="street2" value="Street2:"/>
+                    <p:inputText id="street2" value="#{clientController.clientDTO.street2}"/>
+                    <p:message for="street2"/>
+
+                    <p:outputLabel for="zipCode" value="Zip Code:"/>
+                    <p:inputText id="zipCode" value="#{clientController.clientDTO.zipCode}"
+                                 required="true" requiredMessage="Cannot be empty!"/>
+                    <p:message for="zipCode"/>
+
+                    <h:outputText value=""/>
+                    <p:commandButton value="Save" action="#{clientController.save}"
+                                     ajax="true"/>
+
+
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>

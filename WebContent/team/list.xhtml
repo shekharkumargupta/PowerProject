@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="FORM_HEADER_NEW">
+                <h:outputText value="Team List" styleClass="FORM_HEADER_NEW"/>    
+            </p:panel>
+            <br></br>
+            <h:form>
+                <p:dataTable value="#{teamController.teamDTOList}" 
+                             var="team"
+                             paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                             rowStyleClass="SIMPLE_LINE">
+                    <p:column width="60">
+                        <f:facet name="header">Image</f:facet>
+                        <p:graphicImage 
+                            value="http://localhost:8080/Pms/faces/ImageServlet?employeeId=#{team.teamLeaderId}"
+                            height="80" width="60"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Details</f:facet>
+                        <p:panelGrid columns="1">
+                        <h:outputText value="Name: #{team.name}" 
+                                      styleClass="COLUMN" 
+                                      style="vertical-align: top;"/>
+                        <h:outputText value="Mentor: #{team.teamLeaderName}" 
+                                      styleClass="COLUMN"
+                                      style="vertical-align: top;"/>
+                        <h:outputText value="Members:" 
+                                      styleClass="COLUMN"
+                                      style="vertical-align: top;"/>
+                        <h:outputText value="Projects:" 
+                                      styleClass="COLUMN"
+                                      style="vertical-align: top;"/>
+                        </p:panelGrid>
+                    </p:column>
+                    <p:column width="50">
+                        <f:facet name="header">Action</f:facet>
+                        <h:commandLink value="View" action="#{teamController.view}">
+                            <f:param name="teamId" value="#{team.id}"/>
+                        </h:commandLink>
+                        <h:outputText value=" "/>
+                        <h:commandLink value="Edit" action="#{teamController.edit}">
+                            <f:param name="teamId" value="#{team.id}"/>
+                        </h:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

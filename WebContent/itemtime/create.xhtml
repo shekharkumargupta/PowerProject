@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Edit Item Time Definition" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:inputHidden id="id" value="#{timeController.timeDTO.id}"/>
+                <h:panelGrid columns="4" styleClass="APPLICATION_CONTENT"
+                             cellpadding="2"
+                             style="vertical-align: top;">
+
+                    <h:panelGrid columns="1" style="vertical-align: top;">
+                        <p:outputLabel for="departmentId" value="Department:"/>
+                        <p:selectOneListbox id="departmentId" 
+                                            value="#{timeController.timeDTO.departmentId}"
+                                            style="height: 250px; width: 180px;">
+                            <f:selectItems value="#{timeController.departmentList}" var="department"
+                                           itemValue="#{department.id}" itemLabel="#{department.name}" />
+                        </p:selectOneListbox>
+                        <p:message for="departmentId"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1" style="vertical-align: top;">
+                        <p:outputLabel for="itemId" value="Item:"/>
+                        <p:selectOneListbox id="itemId" 
+                                            value="#{timeController.timeDTO.itemId}"
+                                            style="height: 250px; width: 150px;">
+                            <f:selectItems value="#{timeController.itemList}" var="item"
+                                           itemValue="#{item.id}" itemLabel="#{item.name}" />
+                            <f:ajax listener="#{timeController.reloadTimeList}"
+                                    execute="itemId" render="timeDefinitionTable"/>
+                        </p:selectOneListbox>
+                        <p:message for="itemId"/>
+                    </h:panelGrid>
+
+                    <h:panelGrid columns="1" style="vertical-align: top;">
+                        <p:dataTable id="timeDefinitionTable" value="#{timeController.timeList}" var="time" 
+                                     paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                                     rowStyleClass="SIMPLE_LINE"
+                                     style="height: 250px;">
+                            <!--
+                            <h:column>
+                                <f:facet name="header">Id</f:facet>
+                                <h:outputText value="#{time.id}" styleClass="COLUMN"/>
+                            </h:column>
+                            -->
+                            <p:column>
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{time.jobName}" styleClass="COLUMN"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Duration</f:facet>
+                                <p:inputText value="#{time.duration}"
+                                             size="4"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Type</f:facet>
+                                <p:selectOneMenu id="durationTypeId" 
+                                                 value="#{time.durationType}">
+                                    <f:selectItems value="#{timeController.durationTypeList}" 
+                                                   var="durationType"
+                                                   itemLabel="#{durationType.value}"
+                                                   itemValue="#{durationType.id}"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Action</f:facet>
+                                <p:commandButton value="Save" 
+                                                 actionListener="#{timeController.saveAjax(time)}"
+                                                 ajax="true">
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </h:panelGrid>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

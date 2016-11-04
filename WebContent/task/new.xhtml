@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="FORM_HEADER_NEW">
+                <h:outputText value="Create Task" styleClass="FORM_HEADER_NEW"/>    
+            </p:panel>
+            <h:form>
+                <p:accordionPanel style="padding-top: 15px; padding-left: 0px; vertical-align: top; "
+                                  multiple="true">
+                    <p:tab title="Select Item">    
+                        <h:panelGrid columns="2"
+                                     cellpadding="2">
+                            <p:outputLabel for="projectId" value="Project: "/>
+                            <p:selectOneMenu id="projectId" 
+                                             value="#{taskController.taskDTO.taskId.projectId}"
+                                             panelStyleClass="NO_PADDING_SIMPLE_TEXT"
+                                             style="width: 300px;">
+                                <f:selectItems value="#{taskController.projectDTOList}" var="project"
+                                               itemValue="#{project.id}" 
+                                               itemLabel="#{project.name}" />
+                                <p:ajax listener="#{taskController.reloadItemEstimation(ae)}"
+                                        update="itemId, taskTable"/>
+                            </p:selectOneMenu>
+
+                            <p:outputLabel for="itemId" value="Item: "/>
+                            <p:selectOneMenu id="itemId" value="#{taskController.selectedItemEstimationId}"
+                                             panelStyleClass="NO_PADDING_SIMPLE_TEXT"
+                                             style="width: 300px;">
+                                <f:selectItem itemLabel="Select" itemValue="" />  
+                                <f:selectItems value="#{taskController.itemEstimationList}"
+                                               var="item" 
+                                               itemLabel="#{item.itemName}"
+                                               itemValue="#{item.id}"/>
+                                <p:ajax listener="#{taskController.reloadAllEstimatedTimeListByItem(ae)}"
+                                        update="itemTable"/>
+                            </p:selectOneMenu>
+                        </h:panelGrid>
+                        <br></br>
+                        <p:dataTable id="itemTable" value="#{taskController.itemEstimationDetailList}" var="item">
+                            <p:column>
+                                <f:facet name="header">Id</f:facet>
+                                <h:outputText value="#{item.jobId}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Name</f:facet>
+                                <h:outputText value="#{item.jobName}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Total QTY/Hrs.</f:facet>
+                                <h:outputText value="#{item.quantity}/#{item.totalTimeInHrs}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Assigned QTY/Hrs.</f:facet>
+                                <h:outputText value="#{item.quantity}/#{item.totalTimeInHrs}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Remaining QTY/Hrs.</f:facet>
+                                <h:outputText value="#{item.quantity}/#{item.totalTimeInHrs}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                            </p:column>
+                        </p:dataTable>
+                        <br></br>
+                    </p:tab>
+                    <p:tab title="Task Details"> 
+                        <table cellpadding="10" cellspacing="5">
+                            <tr>
+                                <td valign="top" style="width: 50%;">
+                                    <h:panelGrid columns="1" cellpadding="2">
+                                        <p:outputLabel for="jobId" value="Job Id:"/>
+                                        <p:inputText id="jobId" value="#{taskController.taskDTO.jobId}"/>
+                                                
+                                        <h:outputLabel for="id" value="Task Id: "/>
+                                        <p:inputText id="id" 
+                                                     value="#{taskController.taskDTO.taskId.taskId}"/>
+
+                                        <p:outputLabel for="taskName" value="Task Name: "/>
+                                        <p:inputText id="taskName" 
+                                                     value="#{taskController.taskDTO.name}"
+                                                     style="width: 100%;"/>
+
+                                        <p:outputLabel for="taskDescription" value="Description: "/>
+                                        <p:inputTextarea id="taskDescription" rows="4" style="width: 100%;"
+                                                         value="#{taskController.taskDTO.description}"/>
+
+                                        <p:fieldset legend="Assign to" style="width: 96%;">
+                                            <p:panelGrid columns="2">                                                
+                                                <p:outputLabel for="selectedTeamId" value="Team: "/>
+                                                <p:selectOneMenu id="selectedTeamId"
+                                                                 value="#{taskController.selectedTeamId}"
+                                                                 style="width: 260px;">
+                                                    <f:selectItems value="#{taskController.teamDTOList}"
+                                                                   var="team" 
+                                                                   itemLabel="#{team.name}"
+                                                                   itemValue="#{team.id}"
+                                                                   itemDescription="Team Leader: #{team.teamLeaderName}"/>
+                                                    <p:ajax listener="#{taskController.showTeamMembers}"
+                                                            global="true"
+                                                            update="assignedToId"/>
+                                                </p:selectOneMenu>
+
+
+                                                <p:outputLabel for="assignedToId" value="Members: "/>
+                                                <p:selectOneMenu id="assignedToId"
+                                                                 value="#{taskController.taskDTO.assignedToId}"
+                                                                 style="width: 260px;">
+                                                    <f:selectItems value="#{taskController.memberDTOList}"
+                                                                   var="member" 
+                                                                   itemLabel="#{member.firstName}"
+                                                                   itemValue="#{member.id}"/>
+                                                </p:selectOneMenu>
+                                                
+                                                <p:outputLabel for="jobStatusId" value="JobStatus: "/>
+                                                <p:selectOneMenu id="jobStatusId" value="#{taskController.taskDTO.jobStatusId}">
+                                                    <f:selectItems value="#{taskController.jobStatusList}" var="jobStatus"
+                                                                   itemValue="#{jobStatus.id}" itemLabel="#{jobStatus.name}" />
+                                                </p:selectOneMenu>
+                                            </p:panelGrid>
+                                        </p:fieldset>
+                                        <p:commandButton value="Save" action="#{taskController.save()}"
+                                                         ajax="true" update="taskTable"/>
+                                    </h:panelGrid>
+                                </td>
+                                <td valign="top" align="right">
+                                    <p:dataTable id="taskTable" value="#{taskController.taskDTOList}" var="task">
+                                        <p:column>
+                                            <f:facet name="header">Task Id</f:facet>
+                                            <h:outputText value="#{task.taskId.taskId}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">Job</f:facet>
+                                            <h:outputText value="#{task.jobName}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">Name</f:facet>
+                                            <h:outputText value="#{task.name}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">Owner</f:facet>
+                                            <p:graphicImage id="image"
+                                                value="http://localhost:8080/Pms/faces/ImageServlet?employeeId=#{task.assignedToId}"
+                                                height="40" width="30"/>
+                                            <p:spacer/>
+                                            <p:tooltip for="image" showEffect="slide" hideEffect="slide">
+                                                <b>
+                                                <h:outputText value="#{task.assignedToName}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                                </b>
+                                                <br></br>
+                                                <h:outputText value="#{task.description}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                            </p:tooltip>    
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">Status</f:facet>
+                                            <h:outputText value="#{task.jobStatusName}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">Assigned Hrs.</f:facet>
+                                            <h:outputText value="#{task.assignedHrs}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">Taken Hrs.</f:facet>
+                                            <h:outputText value="#{task.takenHrs}" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                        </p:column>
+                                        <p:column>
+                                            <f:facet name="header">Action</f:facet>
+                                            <p:commandLink actionListener="#{taskController.saveAjax()}"
+                                                       ajax="true"
+                                                       update="taskTable">
+                                                <h:outputText value="Remove" styleClass="NO_PADDING_SIMPLE_TEXT"/>
+                                            </p:commandLink>
+                                        </p:column>
+                                    </p:dataTable>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:tab>
+                </p:accordionPanel>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

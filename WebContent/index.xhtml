@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:pou="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Facelet Title</title>
+        <link href="./../resources/css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="./../resources/css/style.css" rel="stylesheet" type="text/css" />
+    </h:head>
+    <h:body>
+        <div id="header" class="APPLICATION_HEADER">
+            <h:outputText value="OPGEA Apps"/>
+        </div>
+
+        <div id="content" class="APPLICATION_CONTENT" style="height: 460px;">
+            <h:form>
+                <h:panelGroup>
+                    <h:commandLink value="Sign Up" action="/login/signUp.xhtml"/>
+                    <pou:spacer width="10" />
+                    <h:commandLink value="Login" action="/login/login.xhtml"/>
+                </h:panelGroup>
+            </h:form>
+        </div>		
+
+        <div id="footer" class="APPLICATION_FOOTER">
+            <h:outputText value="www.opgea.com"/>
+        </div>
+    </h:body>
+</html>
+

@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <p:panel styleClass="FORM_HEADER_NEW">
+                <h:outputText value="Employee List" styleClass="FORM_HEADER_NEW"/>    
+            </p:panel>
+            <br></br>
+            <h:form>
+                <p:dataTable value="#{employeeController.employeeList}" var="employee"
+                             paginator="true" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+                             rowStyleClass="SIMPLE_LINE">
+                    <p:column>
+                        <f:facet name="header">Id</f:facet>
+                        <h:outputText value="#{employee.id}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Image</f:facet>
+                        <p:graphicImage 
+                            value="http://localhost:8080/Pms/faces/ImageServlet?employeeId=#{employee.id}"
+                            height="80" width="60"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Emp Code</f:facet>
+                        <h:outputText value="#{employee.empCode}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Name</f:facet>
+                        <h:outputText value="#{employee.firstName}"/>
+                        &nbsp;
+                        <h:outputText value="#{employee.lastName}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Designation</f:facet>
+                        <h:outputText value="#{employee.designation}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Date of Birth</f:facet>
+                        <h:outputText id="dateOfBirth" value="#{employee.dateOfBirth}">
+                            <f:convertDateTime pattern="d-M-yyyy" for="dateOfBirth"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Email</f:facet>
+                        <h:outputText value="#{employee.email}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Contact No.</f:facet>
+                        <h:outputText value="#{employee.contactNo}" />
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">Action</f:facet>
+                        <h:commandLink value="View" action="#{employeeController.view}">
+                            <f:param name="employeeId" value="#{employee.id}"/>
+                        </h:commandLink>
+                        <h:outputText value=" "/>
+                        <h:commandLink value="Edit" action="#{employeeController.edit}">
+                            <f:param name="employeeId" value="#{employee.id}"/>
+                        </h:commandLink>
+                        <h:outputText value=" "/>
+                        <h:commandLink value="Image" action="#{employeeController.imageUpload}">
+                            <f:param name="employeeId" value="#{employee.id}"/>
+                        </h:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

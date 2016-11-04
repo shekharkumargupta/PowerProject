@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="View Employee" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT">
+                    <h:outputText value=""/>
+                    <h:inputHidden id="id" value="#{employeeController.employeeDTO.id}"/>
+                    <h:outputText value=""/>
+
+                    <h:outputLabel value="First Name: " for="firstName"/>
+                    <h:outputText id="firstName" value="#{employeeController.employeeDTO.firstName}"/>
+                    <p:message for="firstName"/>
+
+                    <h:outputLabel value="Last Name: " for="lastName"/>
+                    <h:outputText id="lastName" value="#{employeeController.employeeDTO.lastName}"/>
+                    <p:message for="lastName"/>
+
+                    <h:outputLabel value="Email: " for="email"/>
+                    <h:inputText id="email" value="#{employeeController.employeeDTO.email}"/>
+                    <p:message for="email"/>
+
+                    <h:outputLabel value="Date of Birth: " for="dateOfBirth"/>
+                    <h:outputText id="dateOfBirth" value="#{employeeController.employeeDTO.dateOfBirth}"/>
+                    <p:message for="dateOfBirth"/>
+                </h:panelGrid>
+                <h:panelGroup>
+                    <p:commandButton value="Print" action="#{employeeController.save}">
+                        <f:param name="employeeId" value="#{employee.id}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Delete" action="#{employeeController.delete}">
+                        <f:param name="employeeId" value="#{employee.id}"/>
+                    </p:commandButton>
+                </h:panelGroup>	
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

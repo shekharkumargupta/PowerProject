@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <link href="./../resources/css/layout.css" rel="stylesheet" type="text/css" />
+        <link href="./../resources/css/style.css" rel="stylesheet" type="text/css" />
+        <title>OPGEA PMS</title>
+        <style>
+            body {    
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="SIMPLE_LINE">
+            <h:form>
+                <table width="100%">
+                    <tr>
+                        <td valign="top">
+                            <h1>Power Project</h1>
+                        </td>
+                        <td align="left" valign="top">
+                            <p:messages id="messages"  
+                                        autoUpdate="true"
+                                        closable="true">
+                                <p:effect type="pulsate" event="load" delay="500">
+                                    <f:param name="mode" value="'show'"/>
+                                </p:effect>
+                            </p:messages>
+                        </td>
+                        <td align="right" valign="top">
+                            <h:outputText value="#{sessionScope.SESSION_DATA.employeeName}"/>
+                            &nbsp;
+                            <h:commandLink value="Home" action="/index.xhtml"/>
+                            &nbsp;
+                            <h:commandLink value="Logout" action="#{loginController.logout}"/>
+                        </td>
+                    </tr>
+                </table>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+

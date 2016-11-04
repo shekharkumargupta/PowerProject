@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/simple.xhtml">
+
+        <ui:define name="content">
+            <h:form>
+                <div class="FORM_HEADER" style="margin-left: 5px; margin-top: 5px;">
+                    Login
+                </div>
+                <p:messages id="messages"  
+                            autoUpdate="true"
+                            closable="true">
+                    <p:effect type="pulsate" event="load" delay="500">
+                        <f:param name="mode" value="'show'"/>
+                    </p:effect>
+                </p:messages>
+                <div style="margin-left: 5px; height: 300px;">
+                    <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT"
+                                 cellpadding="2">    		
+                        <p:outputLabel for="loginId" value="Login Id:"/>
+                        <p:inputText id="loginId" value="#{loginController.loginDTO.loginId}">
+                            <f:validateLength for="loginId" minimum="3" maximum="30"/>
+                        </p:inputText>
+                        <p:message for="loginId" severity="info" display="both" />
+
+                        <p:outputLabel for="password" value="Password: "/>
+                        <p:password id="password" value="#{loginController.loginDTO.password}"/>
+                        <p:message for="password" severity="info" display="both"/>
+
+                        <h:outputText value=""/>
+                        <p:commandButton value="Login" action="#{loginController.validateUser()}"
+                                         ajax="false"/>
+                        <h:outputText/>
+                    </h:panelGrid>
+                </div>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

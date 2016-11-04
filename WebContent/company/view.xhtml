@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="View Company" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT" cellpadding="5">
+                    <h:outputText value=""/>
+                    <h:inputHidden id="id" value="#{companyController.companyDTO.id}"/>
+                    <h:outputText value=""/>
+
+                    <h:outputLabel for="name" value="Company Name:"/>
+                    <h:outputText id="name" value="#{companyController.companyDTO.name}"/>
+                    <h:message for="name"/>
+
+                    <h:outputLabel for="website" value="Website:"/>
+                    <h:outputText id="website" value="#{companyController.companyDTO.website}"/>
+                    <h:message for="website"/>
+
+                    <h:outputLabel for="firstName" value="First Name:"/>
+                    <h:outputText id="firstName" value="#{companyController.companyDTO.firstName}"/>
+                    <h:message for="firstName"/>
+
+                    <h:outputLabel for="middleInitial" value="Middle Initial:"/>
+                    <h:outputText id="middleInitial" value="#{companyController.companyDTO.middleInitial}"/>
+                    <h:message for="middleInitial"/>
+
+                    <h:outputLabel for="lastName" value="Last Name:"/>
+                    <h:outputText id="lastName" value="#{companyController.companyDTO.lastName}"/>
+                    <h:message for="lastName"/> 
+
+                    <h:outputLabel for="email" value="Email:"/>
+                    <h:outputText id="email" value="#{companyController.companyDTO.email}"/>
+                    <h:message for="email"/>
+
+                    <h:outputLabel for="contactNo" value="Contact No:"/>
+                    <h:outputText id="contactNo" value="#{companyController.companyDTO.contactNo}"/>
+                    <h:message for="contactNo"/>
+                </h:panelGrid>
+                <h:panelGroup>
+                    <p:commandButton value="Print" action="#{companyController.save}">
+                        <f:param name="companyId" value="#{company.id}"/>
+                    </p:commandButton>
+                    <p:commandButton value="Delete" action="#{companyController.delete}">
+                        <f:param name="companyId" value="#{company.id}"/>
+                    </p:commandButton>
+                </h:panelGroup>	
+            </h:form>
+        </ui:define>
+
+    </ui:composition>
+</html>

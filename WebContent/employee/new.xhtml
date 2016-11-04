@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="Create Employee" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT"
+                             cellpadding="2">
+                    <h:outputText value=""/>
+                    <h:inputHidden id="id" value="#{employeeController.employeeDTO.id}"/>
+                    <h:outputText value=""/>
+
+                    <p:outputLabel value="First Name: " for="firstName"/>
+                    <p:inputText id="firstName" value="#{employeeController.employeeDTO.firstName}"
+                                 required="true" 
+                                 requiredMessage="Field cannot be empty!"
+                                 validatorMessage="Allowed value length is Min: 3 and Max 20.">
+                        <f:validateLength for="firstName" minimum="2" maximum="20"/>
+                    </p:inputText>
+                    <p:message for="firstName"/>
+
+                    <p:outputLabel value="Last Name: " for="lastName"/>
+                    <p:inputText id="lastName" value="#{employeeController.employeeDTO.lastName}"/>
+                    <p:message for="lastName"/>
+
+                    <p:outputLabel value="Department: " for="department"/>
+                    <p:selectOneMenu id="department" value="#{employeeController.employeeDTO.departmentId}">
+                        <f:selectItems value="#{employeeController.departmentList}"
+                                       var="department" 
+                                       itemLabel="#{department.name}"
+                                       itemValue="#{department.id}"/>
+                        <f:ajax listener="#{employeeController.loadDesignationList}"
+                                execute="department" render="designation"/>
+                    </p:selectOneMenu>
+                    <p:message for="department"/>
+
+                    <p:outputLabel value="Designation: " for="designation"/>
+                    <p:selectOneMenu id="designation" value="#{employeeController.employeeDTO.designationId}">
+                        <f:selectItems value="#{employeeController.designationList}"
+                                       var="designation" 
+                                       itemLabel="#{designation.name}"
+                                       itemValue="#{designation.id}"/>
+                    </p:selectOneMenu>
+                    <p:message for="designation"/>
+
+                    <p:outputLabel value="Emp. Code: " for="empCode"/>
+                    <p:inputText id="empCode" value="#{employeeController.employeeDTO.empCode}"
+                                 required="true">
+                        <f:validateLength for="empCode" minimum="3" maximum="12"/>
+                    </p:inputText>
+                    <p:message for="empCode"/>
+
+                    <p:outputLabel value="Email: " for="email"/>
+                    <p:inputText id="email" value="#{employeeController.employeeDTO.email}"
+                                 required="true">
+                        <f:validator validatorId="com.opgea.pms.web.validator.EmailValidator"/>
+                        <f:validateLength minimum="6" maximum="40"/> 
+                    </p:inputText>
+                    <p:message for="email"/>
+
+                    <p:outputLabel value="Date of Birth: " for="dateOfBirth"/>
+                    <p:calendar id="dateOfBirth" value="#{employeeController.employeeDTO.dateOfBirth}"/>
+                    <p:message for="dateOfBirth"/>
+
+                    <h:outputText value=""/>
+                    <p:commandButton value="Save" action="#{employeeController.save}"
+                                     ajax="true"/>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

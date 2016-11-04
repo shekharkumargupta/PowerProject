@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
+    <ui:composition template="./../template/main.xhtml">
+        <ui:define name="content">
+            <h:form>
+                <p:panel styleClass="FORM_HEADER_NEW">
+                    <h:outputText value="View Estimation" styleClass="FORM_HEADER_NEW"/>    
+                </p:panel>
+                <h:panelGrid columns="3" styleClass="APPLICATION_CONTENT">
+                    <p:outputLabel for="estimationId" value="Estimation:"/>
+                    <h:outputText id="estimationId" value="#{estimationController.estimationDTO.id}"/>
+                    <p:message for="estimationId"/>
+
+                    <h:outputText  value=""/>
+                    <h:inputHidden id="id" value="#{estimationController.estimationDTO.id}"/>
+                    <p:message for="id"/>
+
+                    <p:outputLabel for="name" value="Name: "/>
+                    <h:outputText id="name" value="#{estimationController.estimationDTO.name}"/>
+                    <p:message for="name"/>
+
+                    <p:outputLabel for="clientId" value="Client Id: "/>
+                    <h:outputText id="clientId" value="#{estimationController.estimationDTO.clientId}"/>
+                    <p:message for="clientId"/>
+                </h:panelGrid>
+                <h:panelGroup>
+                    <h:commandButton value="Print" action="#{designatinoController.save}">
+                        <f:param name="estimationId" value="#{estimation.id}"/>
+                    </h:commandButton>
+                    <h:commandButton value="Delete" action="#{estimationController.delete}">
+                        <f:param name="estimationId" value="#{estimation.id}"/>
+                    </h:commandButton>
+                </h:panelGroup>	
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
